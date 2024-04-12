@@ -34,6 +34,15 @@ p {
   top: -35px;
 }
 
+.temp a {
+  color: #ffffff89;
+  text-decoration-line: none;
+}
+
+.temp a.active {
+  color: #ffffff;
+}
+
 .app {
   width: 100%;
   height: 100vh;

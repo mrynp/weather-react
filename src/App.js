@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Temperature from "./Temperature";
 
 function App() {
   // let city = "manila";
@@ -21,9 +22,10 @@ function App() {
   function displayWeather(response) {
     console.log(response.data.name);
     // setData(response.data);
+    // setTemperature(response.data.main.temp);
     setWeather({
       name: response.data.name,
-      temperature: response.data.main.temp,
+      temperature: Math.round(response.data.main.temp),
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
       icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
@@ -59,10 +61,7 @@ function App() {
               <p>{weather.name}</p>
             </div>
             <div className="temp">
-              <p>
-                {Math.round(weather.temperature)}
-                <span class="unit">°C</span>
-              </p>
+              <Temperature temp={weather.temperature} />
             </div>
           </div>
           <div className="right">
