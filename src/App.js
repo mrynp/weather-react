@@ -1,28 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Temperature from "./Temperature";
+import DateUtil from "./DateUtil";
 
 function App() {
-  // let city = "manila";
   const [location, setLocation] = useState("");
   const [weather, setWeather] = useState({});
-  // const [data, setData] = useState({});
-
-  // axios.get(url).then(showTemperature);
-
-  // const searchLocation = (event) => {
-  //   if (event.key === "Enter") {
-  //     axios.get(url).then((response) => {
-  //       setData(response.data);
-  //       console.log(response.data);
-  //     });
-  //   }
-  // };
 
   function displayWeather(response) {
-    console.log(response.data.name);
-    // setData(response.data);
-    // setTemperature(response.data.main.temp);
+    console.log(response.data.dt);
+    console.log(response.data);
     setWeather({
       name: response.data.name,
       temperature: Math.round(response.data.main.temp),
@@ -30,6 +16,9 @@ function App() {
       wind: response.data.wind.speed,
       icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       description: response.data.weather[0].description,
+      day: new DateUtil(new Date(response.data.dt * 1000)).currentDay(),
+      hour: new DateUtil(new Date(response.data.dt * 1000)).currentHour(),
+      minute: new DateUtil(new Date(response.data.dt * 1000)).currentMinute(),
     });
   }
 
@@ -46,6 +35,14 @@ function App() {
 
   return (
     <div className="app">
+      <div className="time">
+        <p>
+          {weather.hour}
+          <span className="blink">:</span>
+          {weather.minute}
+        </p>
+        <p>{weather.day}</p>
+      </div>
       <form className="search" onSubmit={handleSubmit}>
         <input
           value={location}
@@ -61,7 +58,10 @@ function App() {
               <p>{weather.name}</p>
             </div>
             <div className="temp">
-              <Temperature temp={weather.temperature} />
+              <p>
+                {weather.temperature}
+                <span className="unit">°C</span>
+              </p>
             </div>
           </div>
           <div className="right">
